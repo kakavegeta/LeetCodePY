@@ -7,6 +7,8 @@ class ListNode:
 class Solution:
 
     def rotateRight(self, head, k):
+        if not head:
+            return 
         dummy = ListNode(0)
         tail = dummy.next = head
         length = 0
@@ -14,12 +16,15 @@ class Solution:
             tail = tail.next
             length+=1
         tail.next = head
-        
-        for _ in range(length-k):
-            tail = tail.next
+        if k%length:
+            for _ in range(length-k%length):
+                tail = tail.next
+
         new = tail.next
+        tail.next = None
         return new
 
 
+sol = Solution
 
         
