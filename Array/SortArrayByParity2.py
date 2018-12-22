@@ -33,9 +33,26 @@ class Solution2:
             if A[i]%2:
                 while A[j]%2:
                     j += 2
+                A[i], A[j] = A[j], A[i]
         return A
-                
-        
 
-sol = Solution2()
-print(sol.sortArrayByParityII([4,2,5,7]))
+class Solution3:
+    def sortArrayByParityII(self, A):
+        i, j, n = 0, 1, len(A) 
+        while i<n and j<n:
+            while i<n and A[i]%2==0:
+                i += 2
+            while j<n and A[j]%2==1:
+                j += 2
+            if i<n and j<n:
+                A[i], A[j] = A[j], A[i]
+        return A
+"""
+just make sure A[0], A[2], A[4]... being even;
+to do this, seperate A into two lists E and O, one by odd position, one by even position;
+for each even i in E(from 0), if A[i] is even, pass it;
+    if A[i] is odd, then pass j through O(from 1) until finding an even one, and swap A[i], A[j] 
+"""                
+
+sol = Solution3()
+print(sol.sortArrayByParityII([4,2,5,7,9,12]))
