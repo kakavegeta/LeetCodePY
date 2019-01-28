@@ -6,19 +6,21 @@
 #         self.right = None
 
 class Solution:
+
+    def __init__(self):
+        self.pre = -float('inf')
+        self.res = float('inf')
+
     def minDiffInBST(self, root):
         """
         :type root: TreeNode
         :rtype: int
         """
-        pre = -float('inf')
-        res = float('inf')
-
         if root.left:
             self.minDiffInBST(root.left)
-        res = min(res, root.val-pre)
-        pre = root.val
+        self.res = min(self.res, root.val-self.pre)
+        self.pre = root.val
         if root.right:
-            self.minDiffInBST(self.right)
-        return res
+            self.minDiffInBST(root.right)
+        return self.res
        
