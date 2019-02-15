@@ -1,5 +1,7 @@
+import operator
 class Solution:
     def islandPerimeter(self, grid: 'List[List[int]]') -> 'int':
+        # math
         land, neighbor = 0, 0 
         for i in range(len(grid)):
             for j in range(len(grid[i])):
@@ -13,7 +15,7 @@ class Solution:
     
 
     def islandPerimeter2(self, grid):
-        #iterative
+        #iteration
         m, n = len(grid), len(grid[0])
         if m==0:
             return 0
@@ -30,3 +32,7 @@ class Solution:
                     if j==n-1 or grid[i][j+1]==0:
                         ans+=1
         return ans
+    
+    def islandPerimeter3(self, grid):
+        # another iteration
+        return sum(sum(map(operator.ne, [0]+row, row+[0])) for row in grid + list(map(list, zip(*grid))))
