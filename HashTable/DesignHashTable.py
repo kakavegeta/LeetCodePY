@@ -17,7 +17,7 @@ class MyHashMap:
         self.array = [None] * self.table_size
     
     def hash(self, key):
-        # use simple division hash
+        # division hash
         return key % self.table_size
 
     def put(self, key: 'int', value: 'int') -> 'None':
@@ -28,18 +28,16 @@ class MyHashMap:
         if self.array[index] == None:
             self.array[index] = Node(key, value)
         else:
-            prev = None
             cur = self.array[index]
+            prev = None
             while cur:
                 if cur.key == key: #update node
                     cur.value = value
                     return
                 prev = cur
                 cur = cur.next
-            cur = Node(key, value)
-            cur.prev = prev
-            prev.next = cur 
-        
+            prev.next = Node(key, value)
+            prev.next.prev = prev
 
     def get(self, key: 'int') -> 'int':
         """
@@ -63,15 +61,60 @@ class MyHashMap:
         node = self.array[index]
         while node:
             if node.key == key:
-                if node.prev is None:
-                    self.array[index] = node.next
+                if node.prev is None and node.next is None:
+                    self.array[index] = None
                 else:
-                    node.prev.next = node.next
-                if node.next is None:
-                    node.prev.next = None
-                else:
-                    node.next.prev = node.prev
+                    if node.prev is None:
+                        self.array[index] = node.next
+                    else:
+                        node.prev.next = node.next
+                    if node.next is None:
+                        node.prev.next = None 
+                    else:
+                        node.next.prev = node.prev
+
             node = node.next
+
+class HashTable:
+    # open addressing
+    m, n = 10003, 10000
+    def __init__(self):
+        self.array = [None] * self.m
+    
+    def hash(self, key, i):
+        return (key%self.m + i*(1 + key%self.n)) % self.m
+    
+    def put(self, key, value):
+        for i in range(self.m):
+            index = self.hash(key, i)
+            if self.array[index] is None:
+                self.array[index] = (key, value)
+                return
+            elif self.array[index][0] == key:
+                self.array[index] = (key, value)
+                return
+        
+    def get(self, key):
+        for i in range(self.m):
+            index = self.hash(key, i)
+            if self.array[index] is None:
+                return -1
+            elif self.array[index][0] == key:
+                return self.array[index][1]
+        return -1
+    
+    def remove(self, key):
+        for i in range(self.m):
+            index = self.hash(key, i)
+            if self.array[index] is None:
+                return
+            elif self.array[index][0] == key:
+                self.array[index] = "Del"
+                return 
+    
+        
+            
+
     
 
 
