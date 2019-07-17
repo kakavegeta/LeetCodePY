@@ -12,10 +12,9 @@ class Solution:
         # make copy
         while node:
             copy = Node(node.val, None, None)
-            temp = node.next
+            copy.next = node.next
             node.next = copy
-            copy.next = temp
-            node = temp
+            node = copy.next
         # assign random pointer to each copy
         node = head
         while node:
@@ -29,18 +28,22 @@ class Solution:
         while node:
             node.next = node = copy.next
             copy.next = copy = node and node.next
-        return head_head
-        """
-        node = head
-        copy = dummy = Node(None, None, None)
-        while node:
-            node_temp = node.next.next
-            copy_temp = node.next
-            copy.next = copy_temp
-            copy = copy_temp
-            node.next = node_temp
-            node = node_temp
-        return dummy.next
-        """
-        
+        return copy_head
+ 
+    def copyRandomList2(self, head):
+        node_map = {}
+        if not head:
+            return None
+        cur = head
+        while cur:
+            node_map[cur] = Node(cur.val, None, None)
+            cur = cur.next
+        cur = head
+        while cur:
+            if cur.next:
+                node_map[cur].next = node_map[cur.next]
+            if cur.random:
+                node_map[cur].random = node_map[cur.random]
+            cur = cur.next
+        return node_map[head]
     
